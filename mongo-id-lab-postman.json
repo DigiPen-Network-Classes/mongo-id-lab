@@ -1,6 +1,5 @@
 {
 	"info": {
-		"_postman_id": "a0a87d8a-dda8-4648-8da9-3c8cce279290",
 		"name": "CS261 Mongo Id Lab",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -34,7 +33,13 @@
 									"    let testScore = parseInt(pm.environment.get(\"score\"));\r",
 									"    pm.expect(jsonData.scores).to.have.property(pm.environment.get(\"playerName\"));\r",
 									"    pm.expect(jsonData.scores[pm.environment.get(\"playerName\")]).to.equal(testScore);\r",
-									"});"
+									"});\r",
+									"pm.test('should not have _id property', ()=> {\r",
+									"    pm.expect(jsonData).to.not.have.property('_id');\r",
+									"});\r",
+									"pm.test('should have id property', ()=> {\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r"
 								],
 								"type": "text/javascript"
 							}
@@ -66,19 +71,7 @@
 							"raw": "{\n\t\"score\" : {{score}}\n}"
 						},
 						"url": {
-							"raw": "http://{{address}}:{{port}}/scoresLab/games/{{gameName}}/scores/{{playerName}}",
-							"protocol": "http",
-							"host": [
-								"{{address}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"scoresLab",
-								"games",
-								"{{gameName}}",
-								"scores",
-								"{{playerName}}"
-							]
+							"raw": "http://{{address}}:{{port}}/scoresLab/games/{{gameName}}/scores/{{playerName}}"
 						}
 					},
 					"response": []
@@ -115,7 +108,13 @@
 									"    let testScore = parseInt(pm.environment.get(\"anotherScore\"));\r",
 									"    pm.expect(jsonData.scores).to.have.property(pm.environment.get(\"anotherPlayerName\"));\r",
 									"    pm.expect(jsonData.scores[pm.environment.get(\"anotherPlayerName\")]).to.equal(testScore);\r",
-									"});"
+									"});\r",
+									"pm.test('should not have _id property', ()=> {\r",
+									"    pm.expect(jsonData).to.not.have.property('_id');\r",
+									"});\r",
+									"pm.test('should have id property', ()=> {\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"});\r"
 								],
 								"type": "text/javascript"
 							}
@@ -242,31 +241,12 @@
 					},
 					"response": []
 				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
 			]
 		},
 		{
 			"name": "Retrieve scores",
-			"item": [
+			"item": 
+			[
 				{
 					"name": "Requesting scores for existing game succeeds",
 					"event": [
@@ -285,7 +265,7 @@
 									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"gameName\"));\r",
 									"});\r",
 									"\r",
-									"pm.test('should have score datas', function() {\r",
+									"pm.test('should have score data', function() {\r",
 									"    pm.expect(jsonData).to.have.property('scores');\r",
 									"});\r",
 									"\r",
@@ -361,26 +341,6 @@
 					"response": []
 				}
 			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
 		}
 	],
 	"variable": [

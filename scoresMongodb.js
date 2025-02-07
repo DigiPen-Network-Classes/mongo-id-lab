@@ -7,7 +7,7 @@ app.use(express.json());
 import dotenv from 'dotenv';
 dotenv.config();
 
-import {MongoClient} from 'mongodb';
+import { MongoClient } from 'mongodb';
 const mongoHost = process.env.MONGO_HOST || '127.0.0.1';
 const mongoPort = process.env.MONGO_PORT || '27017';
 const connectionString = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${mongoHost}:${mongoPort}`;
@@ -17,19 +17,21 @@ const db = mongoClient.db('cs261lab');
 const gamesCollection = db.collection('games');
 console.log("Mongo Connection Successful");
 
+import { Game } from './game.js';
+
 app.get('/scoresLab/games/:gameName/scores', async (req, res) => {
     let query = { name: req.params.gameName };
-    let game = await gamesCollection.findOne(query);
-    if (game == undefined) {
+    let gameDoc = await gamesCollection.findOne(query);
+    if (gameDoc === null) {
         res.sendStatus(404);
         return;
     }
-    console.log(`request to get game ${req.params.gameName}, doc is: ${JSON.stringify(game)}`);
-    res.send(game);
+    console.log(`request to get game ${req.params.gameName}, doc is: ${JSON.stringify(gameDoc)}`);
+    // send the Game object, not the document
+    res.send(new Game(gameDoc));
 });
 
 app.post('/scoresLab/games/:gameName/scores/:playerName', async (req, res) => {
-
     let query = { name: req.params.gameName };
     let setCommand = {
         $set: {
@@ -39,7 +41,8 @@ app.post('/scoresLab/games/:gameName/scores/:playerName', async (req, res) => {
     let setOptions = { upsert: true, returnDocument: 'after' };
     let gameDoc = await gamesCollection.findOneAndUpdate(query, setCommand, setOptions);
     console.log(`add player ${req.params.playerName} score to ${req.params.gameName}, doc is ${JSON.stringify(gameDoc)}`);
-    res.send(gameDoc);
+    // send Game, not gameDoc
+    res.send(new Game(gameDoc));
 });
 
 // new!
