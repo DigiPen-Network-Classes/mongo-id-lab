@@ -53,7 +53,7 @@ app.get(`/scoresLab/games-by-id/:gameId`, async (req, res) => {
 });
 
 // new!
-app.post(`/scoreslab/games-by-id/:gameId/player/:playerName`, async (req, res) => {
+app.put(`/scoreslab/games-by-id/:gameId/player/:playerName`, async (req, res) => {
     res.sendStatus(404);
 });
 
