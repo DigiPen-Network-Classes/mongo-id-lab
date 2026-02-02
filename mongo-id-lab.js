@@ -1,3 +1,4 @@
+"use strict";
 const port = 13200;
 
 import express from 'express';
@@ -10,10 +11,11 @@ dotenv.config();
 import { MongoClient } from 'mongodb';
 const mongoHost = process.env.MONGO_HOST || '127.0.0.1';
 const mongoPort = process.env.MONGO_PORT || '27017';
-const connectionString = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${mongoHost}:${mongoPort}`;
+const mongoDatabase = 'cs261lab';
+const connectionString = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${mongoHost}:${mongoPort}/${mongoDatabase}?authSource=admin`;
 const mongoClient = new MongoClient(connectionString);
 await mongoClient.connect();
-const db = mongoClient.db('cs261lab');
+const db = mongoClient.db(mongoDatabase);
 const gamesCollection = db.collection('games');
 console.log("Mongo Connection Successful");
 
