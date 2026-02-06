@@ -13,7 +13,10 @@ const mongoHost = process.env.MONGO_HOST || '127.0.0.1';
 const mongoPort = process.env.MONGO_PORT || '27017';
 const mongoDatabase = 'cs261lab';
 const connectionString = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${mongoHost}:${mongoPort}/${mongoDatabase}?authSource=admin`;
-const mongoClient = new MongoClient(connectionString);
+const mongoClient = new MongoClient(connectionString, {
+    serverSelectionTimeoutMS: 5000,
+    connectTimeoutMS: 5000
+});
 await mongoClient.connect();
 const db = mongoClient.db(mongoDatabase);
 const gamesCollection = db.collection('games');
